@@ -84,3 +84,9 @@ We can install pip in using any terminal console. In our case, we used powershel
 poetry add django
 ```
 
+## How to run the project
+
+```powershell
+docker run -p 8005:8000 --name djangocourse djangocourse
+docker exec djangocourse poetry run python manage.py migrate
+```
