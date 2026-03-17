@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from app.views import ArticleListView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("articles/", include("app.urls")),
-    path("__debug__/", include("debug_toolbar.urls"))
+    path("", ArticleListView.as_view(), name="home"),
 ]

@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from django.conf import settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,10 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-k+uv3m&k2hpsgxp4t=dl21&w*p$u%x$tui++w=02n_@00jex8l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -50,23 +52,20 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-if DEBUG:
+ENABLE_DJANGO_DEBUG_TOOLBAR = (
+    os.getenv("ENABLE_DJANGO_DEBUG_TOOLBAR", "False") == "True"
+)
 
-    INSTALLED_APPS += [
-        "debug_toolbar"
-    ]
+if ENABLE_DJANGO_DEBUG_TOOLBAR:
+    MIDDLEWARE.insert(2, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
-    MIDDLEWARE += [
-        "debug_toolbar.middleware.DebugToolbarMiddleware"
-    ]
+if settings.ENABLE_DJANGO_DEBUG_TOOLBAR:
+        from debug_toolbar.toolbar import (
+            debug_toolbar_urls,
+        )
 
-    import socket
-
-    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-
-    INTERNAL_IPS = [ip[:-1] + "1" for ip in ips] + ["127.0.0.1"]
-    INTERNAL_IPS += ["192.168.65.1"]
-
+        urlpatterns += debug_toolbar_urls()
+        
 ROOT_URLCONF = 'djangocourse.urls'
 
 TEMPLATES = [
