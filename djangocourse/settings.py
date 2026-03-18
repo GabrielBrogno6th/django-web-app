@@ -51,20 +51,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-ENABLE_DJANGO_DEBUG_TOOLBAR = (
-    os.getenv("ENABLE_DJANGO_DEBUG_TOOLBAR", "False") == "True"
-)
-
-if ENABLE_DJANGO_DEBUG_TOOLBAR:
-    MIDDLEWARE.insert(2, "debug_toolbar.middleware.DebugToolbarMiddleware")
-
-if settings.ENABLE_DJANGO_DEBUG_TOOLBAR:
-        from debug_toolbar.toolbar import (
-            debug_toolbar_urls,
-        )
-
-        urlpatterns += debug_toolbar_urls()
         
 ROOT_URLCONF = 'djangocourse.urls'
 
